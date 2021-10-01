@@ -8,7 +8,7 @@ HTML
 ```  
 Javascript  
 ```javascript
-  const myMap = new simpleMap();
+  const myMap = new simpleMap.Map();
 ```
 
 ## Methods
@@ -32,4 +32,19 @@ Get data
     // 'next'
     console.log(myMap.get('hello'));
     // 'world'
+```
+
+### Graph
+
+```javascript
+    myMap.clear();
+    
+    myMap.set(1 ,[4, 5]);
+    myMap.set(2, [5]);
+    myMap.set(4, [1, 5, 6]);
+    myMap.set(5, [1, 2, 4]);
+    myMap.set(6, [1, 4, 7]);
+    myMap.set(7, [6]);
+    
+    const shortestPath = myMap.createGraph().findShortestPath(1, 7);
 ```
