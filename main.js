@@ -1,6 +1,6 @@
 const myMap = new simpleMap.Map();
 
-////////////// -- many to many mapping -- //////////////
+////////////// -- many to one mapping -- //////////////
 // myMap.set([<key1> ,<key2>,...] , <values>);
 myMap.set(1 ,[4, 5])
      .set(2, [5])
