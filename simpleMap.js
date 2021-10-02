@@ -5,7 +5,6 @@ class simpleMap {
 simpleMap.Map = class Map{
     key   = {};
     value = {};
-    graph = {};
     length = 0;
 
     set(key , value){
@@ -26,6 +25,7 @@ simpleMap.Map = class Map{
             this.value[String(this.length)] = value;
         }
         this.length++;
+        return this;
     }    
 
     get(key){
@@ -43,9 +43,21 @@ simpleMap.Map = class Map{
     }
 
     createGraph(){
-        Object.keys(this.key).forEach(currentNode => {
+       return new simpleMap.Graph(this);
+    }
+
+
+}
+
+simpleMap.Graph = class Graph {
+
+    graph = {};
+
+    constructor(map){
+
+        Object.keys(map.key).forEach(currentNode => {
             this.graph[currentNode] = [];
-            this.value[this.key[currentNode]].forEach(nextNode => {
+            map.value[map.key[currentNode]].forEach(nextNode => {
                 this.graph[currentNode].push(nextNode);
             });
 
