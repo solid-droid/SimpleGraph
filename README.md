@@ -1,6 +1,12 @@
 # SimpleMap
 Map / Graph datastructure - create graphs, traversing algorithms, many to many mapping, etc..
 
+# Why
+- **many to many** and **many to one mapping**
+- **graph** data structure 
+- inbuilt path finders in graph - all paths, if path exist, shortest path
+- weighted path finders
+
 # Usage 
 HTML
 ```html
