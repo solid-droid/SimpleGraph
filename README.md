@@ -1,4 +1,4 @@
-# SimpleMap
+# SimpleGraph
 Map / Graph datastructure - create graphs, traversing algorithms, many to many mapping, etc..
 
 # Why
@@ -10,7 +10,7 @@ Map / Graph datastructure - create graphs, traversing algorithms, many to many m
 # Usage 
 HTML
 ```html
-    <script src="./simpleMap.js"></script>
+    <script src="./simpleGraph.js"></script>
 ```  
 Javascript  
 ```javascript
