@@ -29,7 +29,11 @@ simpleGraph.Map = class Map{
     }    
 
     get(key){
-        return this.value[this.key[String(key)]]
+        if(typeof key === 'string'){
+            return this.value[this.key[key]];
+        } else {
+            return this.value[this.key[String(key)]]
+        }
     }
 
     remove(index){
@@ -50,7 +54,6 @@ simpleGraph.Map = class Map{
 }
 
 simpleGraph.Graph = class Graph {
-
     graph = {};
 
     constructor(map){
@@ -58,7 +61,7 @@ simpleGraph.Graph = class Graph {
         Object.keys(map.key).forEach(currentNode => {
             this.graph[currentNode] = [];
             map.value[map.key[currentNode]].forEach(nextNode => {
-                this.graph[currentNode].push(nextNode);
+                this.graph[currentNode].push({node:nextNode, weight:0});
             });
 
         });
@@ -69,31 +72,33 @@ simpleGraph.Graph = class Graph {
     findShortestPath(start, end){
         let path = [];
         let visited = {};
-        let queue = [start];
+        let queue = [end];
         let currentNode;
-        let nextNode;
         let found = false;
         let loop = true;
         while(loop){
             currentNode = queue.shift();
-            if(currentNode === end){
+            if(currentNode === start){
                 found = true;
                 break;
             }
             visited[currentNode] = true;
+            if(!this.graph[currentNode]){
+                console.error('Node not found');
+                break;
+            }
             this.graph[currentNode].forEach(nextNode => {
                 if(!visited[nextNode]){
-                    queue.push(nextNode);
+                    queue.push(nextNode.node);
                 }
             });
         }
         if(found){
-            while(currentNode !== start){
+            while(currentNode !== end){
                 path.push(currentNode);
-                currentNode = this.graph[currentNode][0];
+                currentNode = this.graph[currentNode][0].node;
             }
-            path.push(start);
-            path.reverse();
+            path.push(end);
         }
         return path;
         
@@ -104,7 +109,6 @@ simpleGraph.Graph = class Graph {
         let visited = {};
         let queue = [{node: start, weight: 0}];
         let currentNode;
-        let nextNode;
         let found = false;
         let loop = true;
         while(loop){

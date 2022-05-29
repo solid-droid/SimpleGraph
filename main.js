@@ -2,13 +2,12 @@ const map = new simpleGraph.Map();
 
 ////////////// -- many to one mapping -- //////////////
 // myMap.set([<key1> ,<key2>,...] , <values>);
-map.set(1 ,[4, 5])
-     .set(2, [5])
-     .set(4, [1, 5, 6])
-     .set(5, [1, 2, 4])
-     .set(6, [1, 4, 7])
-     .set(7, [6])
+map.set(1 , [2,4])
+   .set(2, [3])
+   .set(4, [1])
+   .set(3, [4])
 
-const paths = map.createGraph().findShortestPath(1, 7);
+const graph = map.createGraph();
 
-console.log(paths);
+const path = graph.findShortestPath(2, 4);
+console.log(path);
