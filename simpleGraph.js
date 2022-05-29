@@ -1,8 +1,8 @@
-class simpleMap {
+class simpleGraph {
     constructor (){};
 }
 
-simpleMap.Map = class Map{
+simpleGraph.Map = class Map{
     key   = {};
     value = {};
     length = 0;
@@ -43,13 +43,13 @@ simpleMap.Map = class Map{
     }
 
     createGraph(){
-       return new simpleMap.Graph(this);
+       return new simpleGraph.Graph(this);
     }
 
 
 }
 
-simpleMap.Graph = class Graph {
+simpleGraph.Graph = class Graph {
 
     graph = {};
 
