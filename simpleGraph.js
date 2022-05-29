@@ -61,7 +61,7 @@ simpleGraph.Graph = class Graph {
         Object.keys(map.key).forEach(currentNode => {
             this.graph[currentNode] = [];
             map.value[map.key[currentNode]].forEach(nextNode => {
-                this.graph[currentNode].push({node:nextNode, weight:0});
+                this.graph[currentNode].push({node:nextNode, weight:0 , relation:{}});
             });
 
         });
