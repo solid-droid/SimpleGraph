@@ -11,16 +11,10 @@ simpleGraph.Map = class Map{
         if(Array.isArray(key)){
             key.forEach(item => {
                 const _k = String(item);
-                if(this.key[_k]){
-                    this.remove(this.key[_k]);
-                } 
                 this.key[_k] = String(this.length);
             });
             this.value[String(this.length)] = value;
         } else {
-            if(this.key[String(key)]){
-                this.remove(this.key[String(key)]);
-            } 
             this.key[String(key)] = String(this.length);
             this.value[String(this.length)] = value;
         }
@@ -45,94 +39,79 @@ simpleGraph.Map = class Map{
         this.value = {};
         this.length = 0;
     }
-
-    createGraph(){
-       return new simpleGraph.Graph(this);
-    }
-
-
 }
 
 simpleGraph.Graph = class Graph {
-    graph = {};
+    nodeDetails = {};
+    adjecencyList = {};
+    constructor(){
+    }
 
-    constructor(map){
 
-        Object.keys(map.key).forEach(currentNode => {
-            this.graph[currentNode] = [];
-            map.value[map.key[currentNode]].forEach(nextNode => {
-                this.graph[currentNode].push({node:nextNode, weight:0 , relation:{}});
-            });
-
-        });
-
+    setNode(node, info={}){
+        this.nodeDetails[node] = info;
         return this;
     }
 
-    findShortestPath(start, end){
-        let path = [];
-        let visited = {};
-        let queue = [end];
-        let currentNode;
-        let found = false;
-        let loop = true;
-        while(loop){
-            currentNode = queue.shift();
-            if(currentNode === start){
-                found = true;
-                break;
+    getNode = (node) => this.nodeDetails[node];
+
+    setEdge(startNode, endNode, info = {}){
+            info.weight ??= 1;
+            if(!this.adjecencyList[startNode]){
+                this.adjecencyList[startNode] = {};
             }
-            visited[currentNode] = true;
-            if(!this.graph[currentNode]){
-                console.error('Node not found');
-                break;
-            }
-            this.graph[currentNode].forEach(nextNode => {
-                if(!visited[nextNode]){
-                    queue.push(nextNode.node);
-                }
-            });
-        }
-        if(found){
-            while(currentNode !== end){
-                path.push(currentNode);
-                currentNode = this.graph[currentNode][0].node;
-            }
-            path.push(end);
-        }
-        return path;
-        
+            this.adjecencyList[startNode][endNode] = {
+                node: endNode,
+                nodeInfo: this.nodeDetails[endNode],
+                edgeInfo: info
+            };
+        return this;
     }
 
-    findShortestPathWithWeight(start, end){
-        let path = [];
-        let visited = {};
-        let queue = [{node: start, weight: 0}];
-        let currentNode;
-        let found = false;
-        let loop = true;
-        while(loop){
-            currentNode = queue.shift();
-            if(currentNode.node === end){
-                found = true;
-                break;
+    removeEdge(startNode, endNode){
+        delete this.adjecencyList[startNode][endNode];
+        return this;
+    }
+
+    removeNode(node){
+        delete this.nodeDetails[node];
+        delete this.adjecencyList[node];
+        Object.keys(this.adjecencyList).forEach(currentNode => {
+            if(this.adjecencyList[currentNode][node]){
+                delete this.adjecencyList[currentNode][node];
             }
-            visited[currentNode.node] = true;
-            this.graph[currentNode.node].forEach(nextNode => {
-                if(!visited[nextNode]){
-                    queue.push({node: nextNode, weight: currentNode.weight + 1});
+        });
+        return this;
+    }
+
+    getEdge = (startNode, endNode) => this.adjecencyList[startNode]?.[endNode];
+
+
+    paths(startNode, endNode = null){
+        let path = [startNode];
+        let queue = [[startNode]];
+        let pathList = [];
+
+        while(queue.length){
+            path = queue.shift();
+            const last = path[path.length-1];
+            if(last === endNode || endNode === null){
+                pathList.push(path);
+            }
+
+            Object.keys(this.adjecencyList[last] || {}).forEach(nextNode => {
+                if(!path.includes(nextNode)){
+                    queue.push([...path, nextNode]);
                 }
-            });
+            })
         }
-        if(found){
-            while(currentNode.node !== start){
-                path.push(currentNode.node);
-                currentNode = this.graph[currentNode.node][0];
-            }
-            path.push(start);
-            path.reverse();
-        }
-        return path;
-        
+        return pathList;
+
+    }
+
+    shortestPath(startNode, endNode){
+        return this.paths(startNode, endNode).reduce((a,b) => a.length < b.length ? a : b);
+
     }
 }
+

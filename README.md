@@ -1,10 +1,10 @@
 # SimpleGraph
-Map / Graph datastructure - create graphs, traversing algorithms, many to many mapping, etc..
+Map / Graph datastructure - create graphs, find paths, etc.
 
 # Why
 - **many to many** and **many to one mapping**
 - **graph** data structure 
-- inbuilt path finders in graph - all paths, if path exist, shortest path
+- inbuilt path finders in graph
 - weighted path finders
 
 # Usage 
@@ -43,14 +43,16 @@ Get data
 ### Graph
 
 ```javascript
-    myMap.clear();
-    
-    myMap.set(1 ,[4, 5])
-         .set(2, [5])
-         .set(4, [1, 5, 6])
-         .set(5, [1, 2, 4])
-         .set(6, [1, 4, 7])
-         .set(7, [6])
-    
-    const shortestPath = myMap.createGraph().findShortestPath(1, 7);
+    const graph = new simpleGraph.Graph();
+    graph.setEdge('A', 'B')
+        .setEdge('A', 'C')
+        .setEdge('B', 'C')
+        .setEdge('B', 'D')
+        .setEdge('D', 'C')
+        .setEdge('C', 'A')
+        .setEdge('C', 'D')
+        .setEdge('D', 'E')
+        .setEdge('B', 'E')
+    const paths = graph.paths('B', 'E');
+    const shortest = graph.shortestPath('B', 'E');
 ```

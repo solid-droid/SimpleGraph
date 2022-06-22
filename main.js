@@ -1,13 +1,27 @@
+console.log('Map---------->');
 const map = new simpleGraph.Map();
+map.set(['a','b'], [4,5,6])
+   .set(['b','c'], [7,8,9]);
 
-////////////// -- many to one mapping -- //////////////
-// myMap.set([<key1> ,<key2>,...] , <values>);
-map.set(1 , [2,4])
-   .set(2, [3])
-   .set(4, [1])
-   .set(3, [4])
+const a = map.get('a'); // [4,5,6]
+const b = map.get('b'); // [7,8,9]
+const c = map.get('c'); // [7,8,9]
+console.log(a,b,c);
 
-const graph = map.createGraph();
 
-const path = graph.findShortestPath(2, 4);
-console.log(path);
+console.log('Graph-------->');
+const graph = new simpleGraph.Graph();
+graph.setEdge('A', 'B')
+     .setEdge('A', 'C')
+     .setEdge('B', 'C')
+     .setEdge('B', 'D')
+     .setEdge('D', 'C')
+     .setEdge('C', 'A')
+     .setEdge('C', 'D')
+     .setEdge('D', 'E')
+     .setEdge('B', 'E')
+
+const paths = graph.paths('B', 'E');
+const shortest = graph.shortestPath('B', 'E');
+console.log(paths, shortest);
+
