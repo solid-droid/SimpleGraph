@@ -18,7 +18,7 @@ HTML
 Set data
 ```javascript
     // myMap.set([<key1> ,<key2>,...] , <values>);
-    const myMap = new simpleMap.Map();
+    const myMap = new simpleGraph.Map();
     myMap.set([1,2,3],['hello','world']); //many to one
     myMap.set(['hh',4, [1,3,4]],'next');  //many to one
     myMap.set('hello' , 'world');         //one  to one
